@@ -326,22 +326,27 @@ em{font-family:"Playfair Display",serif;font-style:italic;font-weight:600;
   padding:calc(var(--nav-h) + 3rem) 0 5rem;
   overflow:hidden;
 }
+/* Semi-transparent on purpose: the animated ambient layer sits behind the
+   hero, and at full opacity this hid it completely — so the first screen
+   of the site showed none of the movement. */
 .hero__bg{
   position:absolute;inset:-8% 0 0;z-index:-2;
-  background:var(--hero-photo) center/cover no-repeat,
-             linear-gradient(160deg,var(--navy-800),var(--navy-950));
-  filter:saturate(.65) contrast(1.05);
+  background:var(--hero-photo) center/cover no-repeat;
+  opacity:.42;
+  filter:saturate(.7) contrast(1.05);
   transform:scale(1.06);will-change:transform;
   animation:kenburns 24s ease-in-out infinite alternate;
 }
 @keyframes kenburns{to{transform:scale(1.16) translate3d(-1.5%,-1.5%,0)}}
 
+/* Darkening is now weighted to the left, behind the headline, so the text
+   keeps its contrast while the right side stays open for the colour. */
 .hero__veil{
   position:absolute;inset:0;z-index:-1;
   background:
-    radial-gradient(90% 70% at 18% 45%,rgba(7,18,49,.94),transparent 72%),
-    linear-gradient(90deg,var(--navy-950) 6%,rgba(7,18,49,.72) 45%,rgba(4,9,28,.55) 100%),
-    linear-gradient(0deg,var(--navy-950) 2%,transparent 45%);
+    radial-gradient(75% 65% at 12% 45%,rgba(4,9,28,.92),transparent 70%),
+    linear-gradient(90deg,rgba(4,9,28,.9) 0%,rgba(7,18,49,.5) 42%,transparent 78%),
+    linear-gradient(0deg,var(--navy-950) 1%,transparent 38%);
 }
 .hero__particles{position:absolute;inset:0;z-index:0;pointer-events:none}
 
