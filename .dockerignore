@@ -1,0 +1,7 @@
+includes/config.local.php
+uploads/designs/*
+uploads/previews/*
+*.pdf
+.git
+.DS_Store
+node_modules

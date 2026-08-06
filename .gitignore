@@ -1,0 +1,15 @@
+# real secrets — never commit
+includes/config.local.php
+
+# uploaded content
+uploads/designs/*
+uploads/previews/*
+!uploads/designs/.gitignore
+!uploads/previews/.gitignore
+
+.DS_Store
+
+# local docs / build artifacts
+Arams-Tattoo-Documentation.pdf
+_verify.html
+_demo.*

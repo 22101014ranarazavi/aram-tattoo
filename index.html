@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aram's Tattoo — Ink That Tells Your Story</title>
+<meta name="description" content="Aram's Tattoo — custom fine-line, blackwork and realism tattoos. Book an appointment, preview designs with our virtual camera, and explore the gallery." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css?v=6" />
+<link rel="stylesheet" href="assets/css/bodymap.css?v=6" />
+
+<!-- reveal-on-scroll only hides content when JS can bring it back -->
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<!-- ── ambient ink blobs (float behind everything) ───────────── -->
+<div class="ambient" aria-hidden="true">
+  <span class="blob blob--1"></span>
+  <span class="blob blob--2"></span>
+  <span class="blob blob--3"></span>
+</div>
+
+<!-- soft light that follows the cursor -->
+<div class="cursor-glow" aria-hidden="true"></div>
+
+<!-- scroll progress bar -->
+<div class="scroll-progress" aria-hidden="true"><span></span></div>
+
+
+<!-- ══ NAVBAR ══════════════════════════════════════════════════ -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+
+    <a href="#home" class="brand" aria-label="Aram's Tattoo — home">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none">
+          <circle class="brand__ring" cx="24" cy="24" r="20" />
+          <path class="brand__stroke" d="M13 33 L24 14 L35 33 M18 27 H30" />
+        </svg>
+      </span>
+      <span class="brand__text">
+        <span class="brand__name">Aram's</span>
+        <span class="brand__sub">TATTOO</span>
+      </span>
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="Main">
+      <a href="#home"     class="nav__link is-active"><span>Main Page</span></a>
+      <a href="#book"     class="nav__link"><span>Book Appointment</span></a>
+      <a href="camera.html" class="nav__link"><span>Virtual Camera</span></a>
+      <a href="#contact"  class="nav__link"><span>Contact Me</span></a>
+      <a href="#book" class="nav__cta nav__cta--mobile">Book Now</a>
+    </nav>
+
+    <a href="#book" class="nav__cta">
+      <span>Book Now</span>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+    </a>
+
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</header>
+<div class="nav-scrim" id="navScrim" hidden></div>
+
+
+<main>
+
+<!-- ══ HERO ════════════════════════════════════════════════════ -->
+<section class="hero" id="home">
+
+  <!-- background photo lives here — swap the CSS var in style.css -->
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="hero__veil" aria-hidden="true"></div>
+
+  <!-- drifting ink particles -->
+  <canvas class="hero__particles" id="particles" aria-hidden="true"></canvas>
+
+  <!-- animated line-art needle that draws itself -->
+  <svg class="hero__needle" viewBox="0 0 300 300" fill="none" aria-hidden="true">
+    <path class="draw" d="M40 260 C 90 210, 120 180, 150 150 S 210 90, 260 40" />
+    <path class="draw draw--2" d="M245 25 L275 55 L262 68 L232 38 Z" />
+    <circle class="pulse-dot" cx="40" cy="260" r="5" />
+  </svg>
+
+  <div class="hero__content">
+    <p class="hero__eyebrow reveal">
+      <span class="dot"></span> Studio open · Booking for this season
+    </p>
+
+    <h1 class="hero__title">
+      <span class="line reveal" style="--d:.05s">Ink that tells</span>
+      <span class="line reveal" style="--d:.15s"><em>your</em> story</span>
+    </h1>
+
+    <p class="hero__lede reveal" style="--d:.25s">
+      Fine-line, blackwork &amp; realism — designed around you, drawn by hand,
+      and placed with care in a calm, sterile studio.
+    </p>
+
+    <div class="hero__actions reveal" style="--d:.35s">
+      <a href="#book" class="btn btn--primary">
+        <span>Book an Appointment</span>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="camera.html" class="btn btn--ghost">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 8a2 2 0 0 1 2-2h2l1.2-2h5.6L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/>
+          <circle cx="12" cy="12.5" r="3.4"/>
+        </svg>
+        <span>Try Virtual Camera</span>
+      </a>
+    </div>
+
+    <ul class="hero__stats reveal" style="--d:.45s">
+      <li><strong data-count="9">0</strong><span>Years inking</span></li>
+      <li><strong data-count="1400" data-suffix="+">0</strong><span>Pieces done</span></li>
+      <li><strong data-count="100" data-suffix="%">0</strong><span>Custom art</span></li>
+    </ul>
+  </div>
+
+  <a href="#marquee" class="hero__scroll" aria-label="Scroll down">
+    <span class="mouse"><span class="wheel"></span></span>
+    <span class="hero__scroll-label">Scroll</span>
+  </a>
+</section>
+
+
+<!-- ══ MARQUEE ═════════════════════════════════════════════════ -->
+<div class="marquee" id="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Fine Line ✦ Blackwork ✦ Realism ✦ Script ✦ Cover-ups ✦ Micro Tattoo ✦ Custom Design ✦</span>
+    <span>Fine Line ✦ Blackwork ✦ Realism ✦ Script ✦ Cover-ups ✦ Micro Tattoo ✦ Custom Design ✦</span>
+  </div>
+</div>
+
+
+<!-- ══ VIRTUAL CAMERA ══════════════════════════════════════════ -->
+<section class="section section--alt" id="camera">
+  <div class="wrap split">
+    <div class="split__text reveal">
+      <span class="tag">New</span>
+      <h2>Virtual <em>Camera</em></h2>
+      <p>Point your phone at your arm and drop any design straight onto your skin — scale it,
+         rotate it, and see how it sits before a single needle touches you.</p>
+      <ul class="ticks">
+        <li>Live preview on your own body</li>
+        <li>Try any size &amp; placement</li>
+        <li>Save the look and send it to me</li>
+      </ul>
+      <a href="camera.html" class="btn btn--primary"><span>Launch Camera</span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+
+    <div class="split__visual reveal" style="--d:.15s">
+      <div class="phone">
+        <div class="phone__notch"></div>
+        <div class="phone__screen">
+          <div class="phone__scan"></div>
+          <svg class="phone__art" viewBox="0 0 120 160" fill="none" aria-hidden="true">
+            <path class="draw draw--slow" d="M60 20 C30 50 30 90 60 140 C90 90 90 50 60 20 Z"/>
+            <path class="draw draw--slow" d="M60 40 V125"/>
+            <path class="draw draw--slow" d="M60 70 C45 62 40 55 38 46 M60 70 C75 62 80 55 82 46"/>
+            <path class="draw draw--slow" d="M60 100 C45 92 40 85 38 76 M60 100 C75 92 80 85 82 76"/>
+          </svg>
+          <div class="phone__bracket phone__bracket--tl"></div>
+          <div class="phone__bracket phone__bracket--tr"></div>
+          <div class="phone__bracket phone__bracket--bl"></div>
+          <div class="phone__bracket phone__bracket--br"></div>
+          <span class="phone__badge">● LIVE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ BODY MAP ════════════════════════════════════════════════ -->
+<section class="section" id="bodymap">
+  <div class="wrap">
+    <header class="section__head reveal">
+      <span class="tag">Placement</span>
+      <h2>Put it <em>where it goes</em></h2>
+      <p>Pick a spot on the body, drop your design onto it, and see how it sits — no camera needed.</p>
+    </header>
+
+    <div class="bmap reveal">
+
+      <!-- ── the figure ── -->
+      <div class="bmap__stage">
+        <div class="bmap__views" role="tablist" aria-label="Body view">
+          <button class="vbtn is-on" data-view="front" role="tab" aria-selected="true">Front</button>
+          <button class="vbtn" data-view="back" role="tab" aria-selected="false">Back</button>
+        </div>
+
+        <svg class="bmap__svg" id="bodySvg" viewBox="0 0 300 730"
+             aria-label="Human body — choose where the tattoo goes">
+          <defs>
+            <!-- Each body part is defined once and mirrored for the other side.
+                 Parts overlap generously and carry no stroke, so the body reads
+                 as one silhouette instead of a jointed mannequin. -->
+            <path id="p-head"     d="M150 18 C166 18 178 31 179 48 C180 59 178 71 174 81 C170 93 161 105 150 105 C139 105 130 93 126 81 C122 71 120 59 121 48 C122 31 134 18 150 18 Z"/>
+            <path id="p-neck"     d="M136 90 L136 116 C136 123 133 129 127 133 L173 133 C167 129 164 123 164 116 L164 90 Z"/>
+            <path id="p-chest"    d="M128 124 C116 128 106 134 99 145 C94 153 92 164 93 175 L97 212 C99 232 102 250 105 264 L195 264 C198 250 201 232 203 212 L207 175 C208 164 206 153 201 145 C194 134 184 128 172 124 Z"/>
+            <path id="p-stomach"  d="M105 262 C110 278 112 292 112 305 C112 319 110 333 108 346 L192 346 C190 333 188 319 188 305 C188 292 190 278 195 262 Z"/>
+            <path id="p-hips"     d="M108 344 C105 358 103 372 104 384 C105 395 108 403 112 412 L188 412 C192 403 195 395 196 384 C197 372 195 358 192 344 Z"/>
+            <path id="p-shoulder" d="M128 124 C116 128 106 134 99 145 C94 153 91 163 89 175 L88 192 L112 197 C114 183 117 169 122 157 C125 148 128 137 129 128 Z"/>
+            <path id="p-armup"    d="M129 126 C114 130 103 139 96 152 C90 163 87 176 85 190 L79 252 C78 260 78 266 79 272 L101 274 C102 264 104 250 106 236 L112 188 C114 174 118 158 124 146 C126 140 128 132 129 126 Z"/>
+            <path id="p-armfore"  d="M79 268 L74 330 C73 342 73 352 75 361 L96 359 C95 349 96 339 97 329 L101 272 Z"/>
+            <path id="p-hand"     d="M75 357 C71 370 68 385 69 397 C70 410 77 417 85 415 C92 413 96 404 97 393 L96 355 Z"/>
+            <path id="p-thigh"    d="M112 410 C109 432 107 458 107 484 C107 507 109 527 111 547 L147 547 C148 527 149 507 149 484 C149 458 149 432 149 410 Z"/>
+            <path id="p-calf"     d="M111 545 C108 560 107 578 108 595 C110 615 114 635 118 653 C120 661 121 667 122 673 L140 673 C141 667 142 661 143 653 C146 635 148 615 149 595 C150 578 149 560 147 545 Z"/>
+            <path id="p-foot"     d="M122 671 C120 683 117 695 114 703 C110 712 113 719 122 719 L142 719 C146 719 148 713 147 706 L143 671 Z"/>
+
+            <!-- rebuilt in JS so the design only shows inside the chosen part -->
+            <clipPath id="inkClip"></clipPath>
+          </defs>
+
+          <!-- FRONT.  The figure's own left is on the viewer's right. -->
+          <g id="bodyFront">
+            <use class="reg" href="#p-head"     data-region="head"            data-label="Head"/>
+            <use class="reg" href="#p-neck"     data-region="neck"            data-label="Neck"/>
+            <use class="reg" href="#p-chest"    data-region="chest"           data-label="Chest"/>
+            <use class="reg" href="#p-stomach"  data-region="stomach"         data-label="Stomach"/>
+            <use class="reg" href="#p-hips"     data-region="hips"            data-label="Hips"/>
+
+            <use class="reg" href="#p-shoulder" data-region="shoulder-right"  data-label="Right shoulder"/>
+            <use class="reg" href="#p-armup"    data-region="upperarm-right"  data-label="Right upper arm"/>
+            <use class="reg" href="#p-armfore"  data-region="forearm-right"   data-label="Right forearm"/>
+            <use class="reg" href="#p-hand"     data-region="hand-right"      data-label="Right hand"/>
+            <use class="reg" href="#p-thigh"    data-region="thigh-right"     data-label="Right thigh"/>
+            <use class="reg" href="#p-calf"     data-region="calf-right"      data-label="Right calf"/>
+            <use class="reg" href="#p-foot"     data-region="foot-right"      data-label="Right foot"/>
+
+            <g transform="translate(300,0) scale(-1,1)">
+              <use class="reg" href="#p-shoulder" data-region="shoulder-left" data-label="Left shoulder"/>
+              <use class="reg" href="#p-armup"    data-region="upperarm-left" data-label="Left upper arm"/>
+              <use class="reg" href="#p-armfore"  data-region="forearm-left"  data-label="Left forearm"/>
+              <use class="reg" href="#p-hand"     data-region="hand-left"     data-label="Left hand"/>
+              <use class="reg" href="#p-thigh"    data-region="thigh-left"    data-label="Left thigh"/>
+              <use class="reg" href="#p-calf"     data-region="calf-left"     data-label="Left calf"/>
+              <use class="reg" href="#p-foot"     data-region="foot-left"     data-label="Left foot"/>
+            </g>
+          </g>
+
+          <!-- BACK.  Same silhouette, seen from behind, so sides swap. -->
+          <g id="bodyBack" hidden>
+            <use class="reg" href="#p-head"     data-region="back-head"       data-label="Back of head"/>
+            <use class="reg" href="#p-neck"     data-region="nape"            data-label="Nape"/>
+            <use class="reg" href="#p-chest"    data-region="upper-back"      data-label="Upper back"/>
+            <use class="reg" href="#p-stomach"  data-region="lower-back"      data-label="Lower back"/>
+            <use class="reg" href="#p-hips"     data-region="back-hips"       data-label="Hips"/>
+
+            <use class="reg" href="#p-shoulder" data-region="blade-left"      data-label="Left shoulder blade"/>
+            <use class="reg" href="#p-armup"    data-region="tricep-left"     data-label="Left tricep"/>
+            <use class="reg" href="#p-armfore"  data-region="backforearm-left"  data-label="Left forearm"/>
+            <use class="reg" href="#p-hand"     data-region="backhand-left"   data-label="Left hand"/>
+            <use class="reg" href="#p-thigh"    data-region="hamstring-left"  data-label="Left hamstring"/>
+            <use class="reg" href="#p-calf"     data-region="backcalf-left"   data-label="Left calf"/>
+            <use class="reg" href="#p-foot"     data-region="heel-left"       data-label="Left heel"/>
+
+            <g transform="translate(300,0) scale(-1,1)">
+              <use class="reg" href="#p-shoulder" data-region="blade-right"    data-label="Right shoulder blade"/>
+              <use class="reg" href="#p-armup"    data-region="tricep-right"   data-label="Right tricep"/>
+              <use class="reg" href="#p-armfore"  data-region="backforearm-right" data-label="Right forearm"/>
+              <use class="reg" href="#p-hand"     data-region="backhand-right" data-label="Right hand"/>
+              <use class="reg" href="#p-thigh"    data-region="hamstring-right" data-label="Right hamstring"/>
+              <use class="reg" href="#p-calf"     data-region="backcalf-right" data-label="Right calf"/>
+              <use class="reg" href="#p-foot"     data-region="heel-right"     data-label="Right heel"/>
+            </g>
+          </g>
+
+
+          <!-- non-interactive shading: collarbones, sternum, knees -->
+          <g id="bodyDetail" pointer-events="none" fill="none"
+             stroke="#c9a17c" stroke-width="1.2" stroke-linecap="round" opacity=".55">
+            <path d="M132 137 C122 142 114 149 109 158"/>
+            <path d="M168 137 C178 142 186 149 191 158"/>
+            <path d="M150 140 L150 196"/>
+            <path d="M124 210 C134 218 166 218 176 210"/>
+            <path d="M150 300 L150 330"/>
+            <!-- arm / torso separation, or the arms vanish into the body -->
+            <path d="M126 148 C119 160 115 175 113 190 C110 212 107 240 104 268"/>
+            <path d="M174 148 C181 160 185 175 187 190 C190 212 193 240 196 268"/>
+            <path d="M118 512 C126 518 138 518 145 512"/>
+            <path d="M182 512 C174 518 162 518 155 512"/>
+          </g>
+
+          <!-- the design, clipped to whichever part is selected -->
+          <g id="inkLayer"></g>
+        </svg>
+
+        <!-- shown while a file is being dragged over the figure -->
+        <div class="bmap__dropveil" id="bmapDropVeil" aria-hidden="true">
+          <span>Drop it on the body</span>
+        </div>
+
+        <p class="bmap__hint" id="bmapHint">Step 1 — tap a body part</p>
+
+        <!-- The upload sits directly under the figure on purpose: this is the
+             "put your design here" spot, and it must be impossible to miss. -->
+        <label class="drop bmap__drop" id="bmapDrop" for="bmapFile">
+          <input type="file" id="bmapFile" accept="image/*" hidden>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 16V4m-5 5 5-5 5 5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+          <strong>Upload your design</strong>
+          <span>PNG or JPG — or drag it straight onto the body</span>
+        </label>
+
+        <div class="thumb bmap__thumb" id="bmapThumb" hidden>
+          <img id="bmapThumbImg" alt="Your uploaded design">
+          <div class="thumb__meta">
+            <strong id="bmapThumbName">design.png</strong>
+            <span id="bmapThumbHint">Drag it on the body to position</span>
+          </div>
+          <button type="button" class="thumb__clear" id="bmapThumbClear" aria-label="Remove design">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── controls ── -->
+      <aside class="bmap__panel">
+        <div class="bmap__chosen" id="bmapChosen">
+          <span class="bmap__dot"></span>
+          <div>
+            <strong id="chosenName">No spot chosen yet</strong>
+            <span id="chosenSub">Tap the body to pick one</span>
+          </div>
+        </div>
+
+        <div class="bmap__controls" id="bmapControls" hidden>
+          <div class="ctrl">
+            <label for="bmapSize">Size <output id="bmapSizeOut">45%</output></label>
+            <input type="range" id="bmapSize" min="10" max="140" step="1" value="45">
+          </div>
+          <div class="ctrl">
+            <label for="bmapRot">Rotation <output id="bmapRotOut">0°</output></label>
+            <input type="range" id="bmapRot" min="-180" max="180" step="1" value="0">
+          </div>
+          <div class="ctrl">
+            <label>Ink</label>
+            <div class="swatches" id="bmapSwatches" role="radiogroup" aria-label="Ink colour">
+              <button class="sw is-on" data-ink="#141821" style="--sw:#141821" role="radio" aria-checked="true" aria-label="Black"></button>
+              <button class="sw" data-ink="#1b2b45" style="--sw:#1b2b45" role="radio" aria-checked="false" aria-label="Blue black"></button>
+              <button class="sw" data-ink="#3a2a1d" style="--sw:#3a2a1d" role="radio" aria-checked="false" aria-label="Sepia"></button>
+              <button class="sw" data-ink="#7a1420" style="--sw:#7a1420" role="radio" aria-checked="false" aria-label="Deep red"></button>
+            </div>
+          </div>
+
+          <div class="bmap__actions">
+            <button class="btn btn--primary btn--wide" id="bmapSend">
+              <span>Send with my booking</span>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <button class="btn btn--ghost btn--wide" id="bmapReset"><span>Start over</span></button>
+          </div>
+          <p class="bmap__note" id="bmapNote" role="status"></p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ BOOKING ═════════════════════════════════════════════════ -->
+<section class="section" id="book">
+  <div class="wrap">
+    <header class="section__head reveal">
+      <span class="tag">Booking</span>
+      <h2>Reserve your <em>chair</em></h2>
+      <p>Tell me the idea, the size and roughly where it's going. I answer every request within 24 hours.</p>
+    </header>
+
+    <form class="book-form reveal" id="bookForm" novalidate>
+      <div class="field">
+        <input type="text" id="bname" name="name" placeholder=" " required />
+        <label for="bname">Your name</label>
+      </div>
+      <div class="field">
+        <input type="email" id="bmail" name="email" placeholder=" " required />
+        <label for="bmail">Email address</label>
+      </div>
+      <div class="field">
+        <input type="tel" id="bphone" name="phone" placeholder=" " />
+        <label for="bphone">Phone (optional)</label>
+      </div>
+      <div class="field">
+        <input type="date" id="bdate" name="date" required />
+        <label for="bdate" class="label--static">Preferred date</label>
+      </div>
+      <div class="field field--full">
+        <select id="bstyle" name="style">
+          <option>Fine Line</option>
+          <option>Blackwork</option>
+          <option>Realism</option>
+          <option>Cover-up</option>
+          <option>Not sure yet</option>
+        </select>
+        <label for="bstyle" class="label--static">Style</label>
+      </div>
+      <div class="field field--full">
+        <textarea id="bidea" name="idea" rows="4" placeholder=" " required></textarea>
+        <label for="bidea">Describe your idea — size, placement, references…</label>
+      </div>
+
+      <!-- camera preview carried over from the Virtual Camera -->
+      <div class="field--full attached" id="previewAttached" hidden>
+        <img src="" alt="The preview you made in the Virtual Camera">
+        <div>
+          <strong>Camera preview attached</strong>
+          <span>I'll see exactly how you placed it.</span>
+        </div>
+        <button type="button" aria-label="Remove attached preview">&times;</button>
+      </div>
+
+      <!-- Honeypot: hidden from people, filled in by bots. Never remove. -->
+      <div class="hp" aria-hidden="true">
+        <label for="bwebsite">Website</label>
+        <input type="text" id="bwebsite" name="website" tabindex="-1" autocomplete="off">
+      </div>
+      <div class="field--full book-form__submit">
+        <button type="submit" class="btn btn--primary btn--wide">
+          <span>Send Request</span>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <p class="book-form__note" id="formNote" role="status"></p>
+      </div>
+    </form>
+  </div>
+</section>
+
+
+<!-- ══ CONTACT ═════════════════════════════════════════════════ -->
+<section class="section section--alt" id="contact">
+  <div class="wrap">
+    <header class="section__head reveal">
+      <span class="tag">Contact me</span>
+      <h2>Come say <em>hi</em></h2>
+      <p>Walk-ins welcome when the chair is free — but a message first is always safer.</p>
+    </header>
+
+    <div class="contact-grid">
+      <a class="contact-card reveal" href="tel:+15551234567" style="--d:.05s">
+        <div class="contact-card__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg></div>
+        <h3>Call</h3><p>+1 (555) 123-4567</p>
+      </a>
+      <a class="contact-card reveal" href="mailto:hello@aramstattoo.com" style="--d:.15s">
+        <div class="contact-card__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+        <h3>Email</h3><p>hello@aramstattoo.com</p>
+      </a>
+      <a class="contact-card reveal" href="#" style="--d:.25s">
+        <div class="contact-card__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Instagram</h3><p>@arams.tattoo</p>
+      </a>
+      <a class="contact-card reveal" href="#" style="--d:.35s">
+        <div class="contact-card__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+        <h3>Studio</h3><p>24 Ink Street, Downtown</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+
+<!-- ══ FOOTER ══════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer__glow" aria-hidden="true"></div>
+  <div class="wrap footer__inner">
+
+    <div class="footer__col footer__col--brand">
+      <a href="#home" class="brand brand--footer">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none">
+            <circle class="brand__ring" cx="24" cy="24" r="20" />
+            <path class="brand__stroke" d="M13 33 L24 14 L35 33 M18 27 H30" />
+          </svg>
+        </span>
+        <span class="brand__text">
+          <span class="brand__name">Aram's</span>
+          <span class="brand__sub">TATTOO</span>
+        </span>
+      </a>
+      <p>Custom tattoo studio built on clean lines, calm hands and honest advice. Your skin, your story.</p>
+      <div class="socials">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none"><path d="M15 4v9.5a3.5 3.5 0 1 1-3-3.46"/><path d="M15 6.5c.8 1.6 2.2 2.4 4 2.5"/></svg></a>
+        <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20l1.4-4A8 8 0 1 1 8 18.6z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5"/></svg></a>
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#home">Main Page</a></li>
+        <li><a href="#book">Book Appointment</a></li>
+        <li><a href="camera.html">Virtual Camera</a></li>
+        <li><a href="#contact">Contact Me</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4>Studio Hours</h4>
+      <ul class="hours">
+        <li><span>Mon – Fri</span><span>11:00 — 20:00</span></li>
+        <li><span>Saturday</span><span>12:00 — 18:00</span></li>
+        <li><span>Sunday</span><span>Closed</span></li>
+      </ul>
+      <p class="footer__addr">24 Ink Street, Downtown<br />+1 (555) 123-4567</p>
+    </div>
+
+    <div class="footer__col">
+      <h4>Aftercare notes</h4>
+      <p>Get the healing guide, care tips and first look at new flash drops.</p>
+      <form class="subscribe" id="subForm">
+        <div class="hp" aria-hidden="true">
+          <label for="swebsite">Website</label>
+          <input type="text" id="swebsite" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <input type="email" placeholder="your@email.com" aria-label="Email address" required />
+        <button type="submit" aria-label="Subscribe">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+      <p class="subscribe__note" id="subNote" role="status"></p>
+    </div>
+
+  </div>
+
+  <div class="footer__bar">
+    <div class="wrap footer__bar-inner">
+      <p>© <span id="year">2026</span> Aram's Tattoo. All rights reserved.</p>
+      <p class="footer__legal"><a href="#">Privacy</a> · <a href="#">Aftercare</a> · <a href="#">Must be 18+</a></p>
+    </div>
+  </div>
+</footer>
+
+<a href="#home" class="to-top" id="toTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</a>
+
+<script src="assets/js/ink.js?v=6"></script>
+<script src="assets/js/bodymap.js?v=6"></script>
+<script src="assets/js/main.js?v=6"></script>
+</body>
+</html>

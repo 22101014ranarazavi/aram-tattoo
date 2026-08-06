@@ -1,0 +1,177 @@
+/* ============================================================
+   Aram's Tattoo — body map
+   Uses the palette and .btn / .ctrl / .sw rules from style.css
+   ============================================================ */
+
+.bmap{
+  display:grid;grid-template-columns:1fr 340px;gap:clamp(1.5rem,4vw,3rem);
+  align-items:start;
+}
+
+/* ── the figure ──────────────────────────────────────────── */
+.bmap__stage{
+  position:relative;display:flex;flex-direction:column;align-items:center;gap:1rem;
+  padding:1.6rem 1rem 2rem;border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:
+    radial-gradient(60% 45% at 50% 12%,rgba(124,196,238,.1),transparent 70%),
+    linear-gradient(160deg,rgba(15,42,99,.4),rgba(7,18,49,.5));
+}
+
+.bmap__views{
+  display:inline-flex;gap:.25rem;padding:.25rem;border-radius:999px;
+  background:rgba(4,9,28,.5);border:1px solid var(--line);
+}
+.vbtn{
+  padding:.45rem 1.2rem;border:0;border-radius:999px;cursor:pointer;
+  font-family:inherit;font-size:.86rem;color:var(--muted);background:none;
+  transition:background .3s,color .3s;
+}
+.vbtn:hover{color:#fff}
+.vbtn.is-on{
+  color:var(--navy-950);font-weight:600;
+  background:linear-gradient(120deg,var(--baby-200),var(--baby-400));
+}
+
+.bmap__svg{
+  width:100%;max-width:330px;height:auto;
+  touch-action:none;                    /* we handle dragging ourselves */
+  overflow:visible;
+}
+
+/* The body itself. No stroke by default — the parts overlap, and outlining
+   each one would draw every internal seam and turn the figure into a
+   jointed mannequin. An outline appears only on the part being pointed at. */
+.reg{
+  fill:#e5c7ab;
+  stroke:none;
+  cursor:pointer;
+  transition:fill .22s ease,filter .22s ease;
+}
+.reg:hover{fill:#f2dcc6}
+.reg.is-on{
+  fill:#fcecdb;
+  stroke:#7cc4ee;
+  stroke-width:1.6;
+  paint-order:stroke;
+  filter:drop-shadow(0 0 8px rgba(124,196,238,.8));
+}
+.reg:focus-visible{outline:none;filter:drop-shadow(0 0 8px var(--baby-300))}
+
+/* whole-figure edge, so it sits against the navy instead of floating */
+.bmap__svg{filter:drop-shadow(0 2px 10px rgba(0,0,0,.45))}
+
+.bmap__hint{
+  margin:0;padding:.45rem 1.1rem;border-radius:999px;
+  font-size:.82rem;color:var(--baby-200);text-align:center;
+  background:rgba(4,9,28,.6);border:1px solid var(--line);
+  transition:background .3s,color .3s;
+}
+.bmap__hint.is-done{color:var(--muted)}
+
+/* the upload sits directly under the figure — this is the "post your
+   design here" spot, so it gets real weight rather than a small link */
+.bmap__drop{width:min(100%,300px)}
+.bmap__thumb{width:min(100%,300px)}
+
+/* full-stage target while a file is dragged over the figure */
+.bmap__stage{position:relative}
+.bmap__dropveil{
+  position:absolute;inset:0;z-index:5;display:none;place-items:center;
+  border-radius:var(--radius);
+  background:rgba(4,9,28,.82);
+  border:2px dashed var(--baby-300);
+}
+.bmap__stage.is-dragging .bmap__dropveil{display:grid}
+.bmap__dropveil span{
+  font-size:1.05rem;font-weight:600;color:var(--baby-200);
+  padding:.8rem 1.6rem;border-radius:999px;
+  background:rgba(124,196,238,.14);border:1px solid var(--baby-400);
+}
+
+/* nudge the client toward the next step */
+.reg.is-target{
+  animation:regPulse 1.6s ease-in-out infinite;
+}
+@keyframes regPulse{
+  0%,100%{filter:drop-shadow(0 0 4px rgba(124,196,238,.5))}
+  50%    {filter:drop-shadow(0 0 12px rgba(124,196,238,1))}
+}
+
+/* ── control panel ───────────────────────────────────────── */
+.bmap__panel{display:flex;flex-direction:column;gap:1rem}
+
+.bmap__chosen{
+  display:flex;align-items:center;gap:.8rem;
+  padding:.9rem 1rem;border-radius:var(--radius-sm);
+  border:1px solid var(--line);background:rgba(10,28,71,.45);
+}
+.bmap__chosen div{display:flex;flex-direction:column;line-height:1.35;min-width:0}
+.bmap__chosen strong{font-size:.98rem;color:var(--baby-100)}
+.bmap__chosen span{font-size:.8rem;color:var(--muted)}
+.bmap__dot{
+  width:10px;height:10px;flex:none;border-radius:50%;
+  background:var(--baby-400);box-shadow:0 0 0 4px rgba(124,196,238,.16);
+}
+
+.drop--sm{padding:1.1rem 1rem}
+.drop--sm strong{font-size:.92rem}
+.drop--sm span{font-size:.78rem}
+
+.bmap__controls{
+  display:flex;flex-direction:column;gap:.2rem;
+  padding:1.2rem 1.1rem;border-radius:var(--radius-sm);
+  border:1px solid var(--line);background:rgba(10,28,71,.4);
+}
+.bmap__controls .ctrl{margin-bottom:1.1rem}
+.bmap__controls .ctrl:last-of-type{margin-bottom:.6rem}
+.bmap__controls label{
+  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+  margin-bottom:.5rem;font-size:.86rem;color:var(--baby-100);
+}
+.bmap__controls output{font-size:.82rem;color:var(--baby-400);font-variant-numeric:tabular-nums}
+
+.bmap__actions{display:flex;flex-direction:column;gap:.55rem;margin-top:.4rem}
+.bmap__actions .btn{margin:0}
+.bmap__note{margin:.7rem 0 0;font-size:.84rem;color:var(--baby-300);min-height:1.1em}
+
+/* range + swatch styling shared with the camera page */
+.bmap__controls input[type="range"]{
+  -webkit-appearance:none;appearance:none;
+  width:100%;height:5px;border-radius:99px;outline:none;cursor:pointer;
+  background:linear-gradient(90deg,var(--baby-400) var(--fill,50%),rgba(124,196,238,.18) var(--fill,50%));
+}
+.bmap__controls input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:19px;height:19px;border-radius:50%;border:0;cursor:grab;
+  background:linear-gradient(120deg,#fff,var(--baby-300));
+  box-shadow:0 3px 12px -2px var(--baby-400);
+}
+.bmap__controls input[type="range"]::-moz-range-thumb{
+  width:19px;height:19px;border-radius:50%;border:0;
+  background:linear-gradient(120deg,#fff,var(--baby-300));
+}
+.bmap__controls .swatches{display:flex;gap:.55rem;flex-wrap:wrap}
+.bmap__controls .sw{
+  width:34px;height:34px;border-radius:50%;cursor:pointer;padding:0;
+  background:var(--sw);border:2px solid transparent;
+  box-shadow:0 0 0 1px var(--line);
+  transition:transform .25s var(--ease),border-color .25s;
+}
+.bmap__controls .sw:hover{transform:scale(1.12)}
+.bmap__controls .sw.is-on{border-color:var(--baby-200);transform:scale(1.12)}
+
+/* ── responsive ──────────────────────────────────────────── */
+@media (max-width:980px){
+  .bmap{grid-template-columns:1fr;gap:1.4rem}
+  .bmap__svg{max-width:270px}
+}
+@media (max-width:540px){
+  .bmap__stage{padding:1.2rem .6rem 1.6rem}
+  .bmap__svg{max-width:230px}
+  .bmap__hint{font-size:.76rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .reg{transition:none}
+}

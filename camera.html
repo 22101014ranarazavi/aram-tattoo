@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Virtual Camera — Aram's Tattoo</title>
+<meta name="description" content="Upload your tattoo design and see it on your skin at the exact size before you book." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css?v=6" />
+<link rel="stylesheet" href="assets/css/camera.css?v=6" />
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="cam-body">
+
+<!-- ── slim top bar ─────────────────────────────────────────── -->
+<header class="cam-bar">
+  <a href="index.html" class="brand">
+    <span class="brand__mark" aria-hidden="true">
+      <svg viewBox="0 0 48 48" fill="none">
+        <circle class="brand__ring" cx="24" cy="24" r="20" />
+        <path class="brand__stroke" d="M13 33 L24 14 L35 33 M18 27 H30" />
+      </svg>
+    </span>
+    <span class="brand__text">
+      <span class="brand__name">Aram's</span>
+      <span class="brand__sub">TATTOO</span>
+    </span>
+  </a>
+
+  <h1 class="cam-bar__title">Virtual Camera</h1>
+
+  <a href="index.html" class="cam-bar__back">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+    <span>Back to site</span>
+  </a>
+</header>
+
+
+<main class="cam-layout">
+
+  <!-- ══ STAGE ═══════════════════════════════════════════════ -->
+  <section class="stage" id="stage" aria-label="Camera preview">
+    <video id="video" playsinline muted autoplay></video>
+    <canvas id="canvas"></canvas>
+
+    <!-- start / error / permission states -->
+    <div class="stage__overlay" id="startPane">
+      <div class="stage__card">
+        <div class="stage__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M4 8a2 2 0 0 1 2-2h2l1.2-2h5.6L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/>
+            <circle cx="12" cy="12.5" r="3.4"/>
+          </svg>
+        </div>
+        <h2 id="paneTitle">See it on your skin</h2>
+        <p id="paneText">Upload your design, point the camera at the spot you want it, then set the size.</p>
+        <div class="stage__actions">
+          <button class="btn btn--primary" id="startCam">
+            <span>Start Camera</span>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <button class="btn btn--ghost" id="usePhoto"><span>Use a photo instead</span></button>
+        </div>
+        <p class="stage__hint" id="paneHint">Your camera stays on your device — nothing is uploaded or recorded.</p>
+      </div>
+    </div>
+
+    <!-- floating stage controls -->
+    <div class="stage__tools" id="stageTools" hidden>
+      <button class="tool" id="flipCam" title="Switch camera" aria-label="Switch camera">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M20 9a8 8 0 0 0-14-3M4 15a8 8 0 0 0 14 3"/><path d="M4 5v5h5M20 19v-5h-5"/></svg>
+      </button>
+      <button class="tool" id="resetBtn" title="Reset placement" aria-label="Reset placement">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+      </button>
+      <button class="tool tool--shutter" id="shotBtn" title="Take photo" aria-label="Take photo">
+        <span></span>
+      </button>
+    </div>
+
+    <p class="stage__gesture" id="gestureHint" hidden>Drag to move · pinch or scroll to resize · two fingers to rotate</p>
+  </section>
+
+
+  <!-- ══ CONTROLS ════════════════════════════════════════════ -->
+  <aside class="panel" aria-label="Design controls">
+
+    <!-- 1 · design -->
+    <div class="panel__block">
+      <h2 class="panel__title"><span class="step">1</span> Your design</h2>
+
+      <label class="drop" id="drop" for="fileInput">
+        <input type="file" id="fileInput" accept="image/*" hidden />
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 16V4m-5 5 5-5 5 5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+        <strong>Upload a design</strong>
+        <span>PNG, JPG or SVG — drag it here or tap to browse</span>
+      </label>
+
+      <div class="thumb" id="thumb" hidden>
+        <img id="thumbImg" alt="Your uploaded design" />
+        <div class="thumb__meta">
+          <strong id="thumbName">design.png</strong>
+          <span id="thumbSize">—</span>
+        </div>
+        <button class="thumb__clear" id="clearDesign" aria-label="Remove design">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2 · size -->
+    <div class="panel__block" id="sizeBlock">
+      <h2 class="panel__title"><span class="step">2</span> Size &amp; placement</h2>
+
+      <div class="ctrl">
+        <label for="sizeRange">Size <output id="sizeOut">—</output></label>
+        <input type="range" id="sizeRange" min="4" max="90" step="0.5" value="32" />
+      </div>
+
+      <div class="ctrl">
+        <label for="rotRange">Rotation <output id="rotOut">0°</output></label>
+        <input type="range" id="rotRange" min="-180" max="180" step="1" value="0" />
+      </div>
+
+      <button class="link-btn" id="calibToggle" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 12h18M7 9v6M17 9v6"/></svg>
+        <span>Set real size in cm</span>
+      </button>
+
+      <div class="calib" id="calibBox" hidden>
+        <p>Hold a <strong>bank card</strong> flat against the spot, then drag until the outline matches it exactly.</p>
+        <div class="ctrl">
+          <label for="calibRange">Card width</label>
+          <input type="range" id="calibRange" min="10" max="90" step="0.5" value="34" />
+        </div>
+        <button class="btn btn--ghost btn--sm" id="calibDone"><span>Done — sizes now in cm</span></button>
+      </div>
+    </div>
+
+    <!-- 3 · ink -->
+    <div class="panel__block">
+      <h2 class="panel__title"><span class="step">3</span> Ink &amp; finish</h2>
+
+      <div class="ctrl">
+        <label>Ink colour</label>
+        <div class="swatches" id="swatches" role="radiogroup" aria-label="Ink colour">
+          <button class="sw is-on" data-ink="#141821" style="--sw:#141821" role="radio" aria-checked="true"  aria-label="Black"></button>
+          <button class="sw" data-ink="#1b2b45" style="--sw:#1b2b45" role="radio" aria-checked="false" aria-label="Blue black"></button>
+          <button class="sw" data-ink="#3a2a1d" style="--sw:#3a2a1d" role="radio" aria-checked="false" aria-label="Sepia"></button>
+          <button class="sw" data-ink="#7a1420" style="--sw:#7a1420" role="radio" aria-checked="false" aria-label="Deep red"></button>
+          <button class="sw" data-ink="#f2f6fa" style="--sw:#f2f6fa" role="radio" aria-checked="false" aria-label="White ink"></button>
+        </div>
+      </div>
+
+      <div class="ctrl">
+        <label for="opacityRange">Healed strength <output id="opacityOut">90%</output></label>
+        <input type="range" id="opacityRange" min="20" max="100" step="1" value="90" />
+      </div>
+
+      <label class="check">
+        <input type="checkbox" id="removeBg" checked />
+        <span>Drop the white background</span>
+      </label>
+
+      <div class="ctrl" id="thresholdCtrl">
+        <label for="threshRange">Line pickup <output id="threshOut">50%</output></label>
+        <input type="range" id="threshRange" min="5" max="95" step="1" value="50" />
+      </div>
+    </div>
+
+    <!-- 4 · finish -->
+    <div class="panel__block">
+      <h2 class="panel__title"><span class="step">4</span> Save &amp; send</h2>
+      <div class="panel__actions">
+        <button class="btn btn--primary btn--wide" id="shotBtn2">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 8a2 2 0 0 1 2-2h2l1.2-2h5.6L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.4"/></svg>
+          <span>Take Photo</span>
+        </button>
+        <a class="btn btn--ghost btn--wide" href="index.html#book"><span>Book this tattoo</span></a>
+      </div>
+      <p class="panel__note">Save the shot and send it with your booking so I know exactly what you want.</p>
+    </div>
+
+  </aside>
+</main>
+
+
+<!-- ══ SNAPSHOT MODAL ═══════════════════════════════════════ -->
+<div class="shot" id="shotModal" hidden>
+  <div class="shot__inner" role="dialog" aria-modal="true" aria-label="Your preview">
+    <img id="shotImg" alt="Your tattoo preview" />
+    <div class="shot__bar">
+      <a class="btn btn--primary" id="shotSave" download="arams-tattoo-preview.png">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v12m-5-5 5 5 5-5"/><path d="M4 20h16"/></svg>
+        <span>Save</span>
+      </a>
+      <button class="btn btn--ghost" id="shotShare" hidden><span>Share</span></button>
+      <button class="btn btn--primary" id="shotBook"><span>Send with a booking</span></button>
+      <button class="btn btn--ghost" id="shotClose"><span>Back to camera</span></button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="photoInput" accept="image/*" hidden />
+
+<script src="assets/js/ink.js?v=6"></script>
+<script src="assets/js/camera.js?v=6"></script>
+</body>
+</html>
