@@ -15,6 +15,11 @@
   --baby-200:#c4e6f8;
   --baby-100:#e2f2fc;
 
+  /* used sparingly — a warm accent so the navy never reads cold */
+  --pink-400:#f2a6c4;
+  --pink-300:#f8c3d9;
+  --pink-200:#fbdce9;
+
   --ink:#eaf5fd;
   --muted:#9fb6d6;
 
@@ -72,24 +77,81 @@ em{font-family:"Playfair Display",serif;font-style:italic;font-weight:600;
 /* ============================================================
    AMBIENT BACKGROUND
    ============================================================ */
-.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.ambient{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  /* deep navy floor so the blobs have something to glow against */
+  background:
+    radial-gradient(120% 90% at 15% 0%,  #0b2050 0%, transparent 55%),
+    radial-gradient(110% 80% at 90% 30%, #0d2455 0%, transparent 60%),
+    linear-gradient(180deg,#061029 0%, var(--navy-950) 60%);
+}
+
+/* slow hue drift over everything — keeps it alive without moving anything */
+.ambient::after{
+  content:"";position:absolute;inset:-20%;
+  background:
+    conic-gradient(from 0deg at 50% 50%,
+      rgba(124,196,238,.10), rgba(242,166,196,.13),
+      rgba(22,58,131,.14),  rgba(124,196,238,.10));
+  filter:blur(70px);
+  animation:sweep 48s linear infinite;
+}
+@keyframes sweep{to{transform:rotate(360deg)}}
+
 .blob{
-  position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;
+  position:absolute;border-radius:50%;filter:blur(90px);
   will-change:transform;
 }
-.blob--1{width:46vw;height:46vw;left:-12vw;top:-10vw;
+
+/* two navy masses give the depth */
+.blob--1{width:46vw;height:46vw;left:-12vw;top:-10vw;opacity:.55;
   background:radial-gradient(circle,var(--navy-600),transparent 70%);
   animation:drift1 26s ease-in-out infinite}
-.blob--2{width:38vw;height:38vw;right:-10vw;top:28vh;
-  background:radial-gradient(circle,rgba(124,196,238,.45),transparent 70%);
-  animation:drift2 32s ease-in-out infinite}
-.blob--3{width:42vw;height:42vw;left:22vw;bottom:-18vw;
+.blob--3{width:42vw;height:42vw;left:22vw;bottom:-18vw;opacity:.5;
   background:radial-gradient(circle,var(--navy-700),transparent 70%);
   animation:drift3 38s ease-in-out infinite}
 
-@keyframes drift1{50%{transform:translate3d(9vw,7vh,0) scale(1.16)}}
-@keyframes drift2{50%{transform:translate3d(-11vw,-6vh,0) scale(.86)}}
-@keyframes drift3{50%{transform:translate3d(6vw,-9vh,0) scale(1.1)}}
+/* baby blue carries the brand */
+.blob--2{width:38vw;height:38vw;right:-10vw;top:28vh;opacity:.5;
+  background:radial-gradient(circle,rgba(124,196,238,.45),transparent 70%);
+  animation:drift2 32s ease-in-out infinite}
+.blob--5{width:30vw;height:30vw;left:38vw;top:8vh;opacity:.3;
+  background:radial-gradient(circle,rgba(165,216,243,.4),transparent 70%);
+  animation:drift5 44s ease-in-out infinite}
+
+/* pink stays small and low-opacity — a blush, not a colour scheme */
+.blob--4{width:26vw;height:26vw;right:10vw;bottom:4vh;opacity:.55;
+  background:radial-gradient(circle,rgba(242,166,196,.85),transparent 70%);
+  animation:drift4 34s ease-in-out infinite}
+.blob--6{width:18vw;height:18vw;left:4vw;top:40vh;opacity:.4;
+  background:radial-gradient(circle,rgba(248,195,217,.75),transparent 68%);
+  animation:drift6 40s ease-in-out infinite}
+
+/* Each path is a different shape and length, so they never fall into
+   step with one another and the motion keeps looking organic. */
+@keyframes drift1{
+  33%{transform:translate3d(8vw,6vh,0)   scale(1.14)}
+  66%{transform:translate3d(3vw,12vh,0)  scale(.95)}
+}
+@keyframes drift2{
+  30%{transform:translate3d(-10vw,-5vh,0) scale(.88)}
+  70%{transform:translate3d(-4vw,8vh,0)   scale(1.1)}
+}
+@keyframes drift3{
+  40%{transform:translate3d(7vw,-8vh,0)   scale(1.12)}
+  75%{transform:translate3d(-5vw,-3vh,0)  scale(.92)}
+}
+@keyframes drift4{
+  35%{transform:translate3d(-7vw,-9vh,0)  scale(1.2)}
+  70%{transform:translate3d(4vw,-4vh,0)   scale(.9)}
+}
+@keyframes drift5{
+  50%{transform:translate3d(-6vw,10vh,0)  scale(1.15)}
+}
+@keyframes drift6{
+  45%{transform:translate3d(9vw,-7vh,0)   scale(1.25)}
+  80%{transform:translate3d(2vw,5vh,0)    scale(.85)}
+}
 
 .cursor-glow{
   position:fixed;top:0;left:0;width:420px;height:420px;z-index:1;

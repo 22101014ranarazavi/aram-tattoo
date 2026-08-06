@@ -37,7 +37,9 @@
 
 
 /* ── layout ──────────────────────────────────────────────── */
+/* above the fixed .ambient layer, which is z-index 0 */
 .cam-layout{
+  position:relative;z-index:1;
   display:grid;grid-template-columns:minmax(0,1fr) 380px;
   gap:1.1rem;padding:1.1rem;
   height:calc(100svh - 66px);
