@@ -18,6 +18,7 @@
     linear-gradient(160deg,rgba(15,42,99,.4),rgba(7,18,49,.5));
 }
 
+.bmap__switches{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
 .bmap__views{
   display:inline-flex;gap:.25rem;padding:.25rem;border-radius:999px;
   background:rgba(4,9,28,.5);border:1px solid var(--line);

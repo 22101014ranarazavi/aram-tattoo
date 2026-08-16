@@ -30,7 +30,15 @@
   const sizeRange = $('#bmapSize'), sizeOut = $('#bmapSizeOut');
   const rotRange  = $('#bmapRot'),  rotOut  = $('#bmapRotOut');
 
+  /* Artwork per body type. A second set only needs the two files dropped in
+     with these names — the switch reveals itself once they resolve. */
+  const FIGURES = {
+    male:   { front: 'assets/img/body-male-front.png',   back: 'assets/img/body-male-back.png' },
+    female: { front: 'assets/img/body-female-front.png', back: 'assets/img/body-female-back.png' },
+  };
+
   const st = {
+    gender: 'male',
     view: 'front',
     region: null,        // the selected <use> element
     label: '',
@@ -55,6 +63,42 @@
   };
 
 
+  /* ── which artwork is showing ─────────────────────────── */
+  function applyFigure() {
+    artFront.setAttribute('href', FIGURES[st.gender].front);
+    artBack.setAttribute('href',  FIGURES[st.gender].back);
+    setHidden(front,    st.view !== 'front');
+    setHidden(back,     st.view !== 'back');
+    setHidden(artFront, st.view !== 'front');
+    setHidden(artBack,  st.view !== 'back');
+  }
+
+  /* Only offer the body-type switch once that artwork actually resolves —
+     a control that swaps to a broken image is worse than no control. */
+  (function offerGenderSwitch() {
+    const probe = new Image();
+    probe.onload = () => {
+      const box = $('#bmapGender');
+      if (box) box.removeAttribute('hidden');
+    };
+    probe.onerror = () => {};          // stay hidden, male only
+    probe.src = FIGURES.female.front;
+  })();
+
+  document.querySelectorAll('#bmapGender .vbtn').forEach((b) => {
+    b.addEventListener('click', () => {
+      st.gender = b.dataset.gender;
+      document.querySelectorAll('#bmapGender .vbtn').forEach((o) => {
+        const on = o === b;
+        o.classList.toggle('is-on', on);
+        o.setAttribute('aria-selected', String(on));
+      });
+      applyFigure();
+      clearSelection();
+    });
+  });
+
+
   /* ── view toggle ──────────────────────────────────────── */
   document.querySelectorAll('.vbtn').forEach((b) => {
     b.addEventListener('click', () => {
@@ -64,10 +108,7 @@
         o.classList.toggle('is-on', on);
         o.setAttribute('aria-selected', String(on));
       });
-      setHidden(front,    st.view !== 'front');
-      setHidden(back,     st.view !== 'back');
-      setHidden(artFront, st.view !== 'front');   // swap the drawing as well
-      setHidden(artBack,  st.view !== 'back');
+      applyFigure();
       clearSelection();
     });
   });
@@ -445,16 +486,17 @@
      and kept. */
   const artCache = {};
   async function artDataUrl(view) {
-    if (artCache[view]) return artCache[view];
-    const el = view === 'front' ? artFront : artBack;
-    const res = await fetch(el.getAttribute('href'));
+    // keyed by the file, not the view — the artwork also depends on body type
+    const src = FIGURES[st.gender][view];
+    if (artCache[src]) return artCache[src];
+    const res = await fetch(src);
     const blob = await res.blob();
-    artCache[view] = await new Promise((ok) => {
+    artCache[src] = await new Promise((ok) => {
       const fr = new FileReader();
       fr.onload = () => ok(fr.result);
       fr.readAsDataURL(blob);
     });
-    return artCache[view];
+    return artCache[src];
   }
 
   /** Flatten the live SVG (body + design) into a PNG data URL. */

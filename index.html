@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/style.css?v=17" />
-<link rel="stylesheet" href="assets/css/bodymap.css?v=17" />
+<link rel="stylesheet" href="assets/css/style.css?v=18" />
+<link rel="stylesheet" href="assets/css/bodymap.css?v=18" />
 
 <!-- reveal-on-scroll only hides content when JS can bring it back -->
 <script>document.documentElement.classList.add('js');</script>
@@ -205,9 +205,16 @@
 
       <!-- ── the figure ── -->
       <div class="bmap__stage">
-        <div class="bmap__views" role="tablist" aria-label="Body view">
-          <button class="vbtn is-on" data-view="front" role="tab" aria-selected="true">Front</button>
-          <button class="vbtn" data-view="back" role="tab" aria-selected="false">Back</button>
+        <div class="bmap__switches">
+          <!-- shown only once female artwork exists; see bodymap.js -->
+          <div class="bmap__views" id="bmapGender" role="tablist" aria-label="Body type" hidden>
+            <button class="vbtn is-on" data-gender="male" role="tab" aria-selected="true">Male</button>
+            <button class="vbtn" data-gender="female" role="tab" aria-selected="false">Female</button>
+          </div>
+          <div class="bmap__views" role="tablist" aria-label="Body view">
+            <button class="vbtn is-on" data-view="front" role="tab" aria-selected="true">Front</button>
+            <button class="vbtn" data-view="back" role="tab" aria-selected="false">Back</button>
+          </div>
         </div>
 
         <svg class="bmap__svg" id="bodySvg" viewBox="0 0 343 801"
@@ -236,9 +243,9 @@
           </defs>
 
           <!-- the drawing itself; the regions above are laid over it -->
-          <image id="artFront" href="assets/img/body-front.png"
+          <image id="artFront" href="assets/img/body-male-front.png"
                  x="0" y="0" width="343" height="801" pointer-events="none"/>
-          <image id="artBack"  href="assets/img/body-back.png" hidden
+          <image id="artBack"  href="assets/img/body-male-back.png" hidden
                  x="0" y="5" width="343" height="791" pointer-events="none"/>
 
           <!-- FRONT.  The figure's own left is on the viewer's right. -->
@@ -552,8 +559,8 @@
   <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
 </a>
 
-<script src="assets/js/ink.js?v=17"></script>
-<script src="assets/js/bodymap.js?v=17"></script>
-<script src="assets/js/main.js?v=17"></script>
+<script src="assets/js/ink.js?v=18"></script>
+<script src="assets/js/bodymap.js?v=18"></script>
+<script src="assets/js/main.js?v=18"></script>
 </body>
 </html>
