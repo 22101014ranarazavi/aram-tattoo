@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/style.css?v=11" />
-<link rel="stylesheet" href="assets/css/bodymap.css?v=11" />
+<link rel="stylesheet" href="assets/css/style.css?v=12" />
+<link rel="stylesheet" href="assets/css/bodymap.css?v=12" />
 
 <!-- reveal-on-scroll only hides content when JS can bring it back -->
 <script>document.documentElement.classList.add('js');</script>
@@ -79,8 +79,15 @@
 <!-- ══ HERO ════════════════════════════════════════════════════ -->
 <section class="hero" id="home">
 
-  <!-- background photo lives here — swap the CSS var in style.css -->
+  <!-- Still frame underneath: shows while the video loads, and is all that
+       renders for anyone who has asked for reduced motion. -->
   <div class="hero__bg" aria-hidden="true"></div>
+
+  <video class="hero__video" id="heroVideo" aria-hidden="true"
+         autoplay muted loop playsinline preload="none"
+         poster="assets/img/hero.jpg">
+    <source src="assets/video/hero.mp4" type="video/mp4">
+  </video>
   <div class="hero__veil" aria-hidden="true"></div>
 
   <!-- drifting ink particles -->
@@ -549,8 +556,8 @@
   <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
 </a>
 
-<script src="assets/js/ink.js?v=11"></script>
-<script src="assets/js/bodymap.js?v=11"></script>
-<script src="assets/js/main.js?v=11"></script>
+<script src="assets/js/ink.js?v=12"></script>
+<script src="assets/js/bodymap.js?v=12"></script>
+<script src="assets/js/main.js?v=12"></script>
 </body>
 </html>

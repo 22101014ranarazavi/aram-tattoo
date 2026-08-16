@@ -140,12 +140,48 @@
 
 
   /* ── hero parallax ────────────────────────────────────────── */
-  const heroBg = $('.hero__bg');
-  if (heroBg && !reduced) {
+  const heroLayers = $$('.hero__bg, .hero__video');
+  if (heroLayers.length && !reduced) {
     addEventListener('scroll', () => {
       const y = window.scrollY;
-      if (y < innerHeight * 1.2) heroBg.style.translate = `0 ${y * 0.28}px`;
+      if (y >= innerHeight * 1.2) return;
+      const shift = `0 ${y * 0.28}px`;
+      heroLayers.forEach((el) => { el.style.translate = shift; });
     }, { passive: true });
+  }
+
+
+  /* ── hero video ───────────────────────────────────────────── */
+  /* Held back until we know it is wanted: 3MB is rude to push at someone
+     on mobile data, and it is pure decoration — the poster already says
+     everything the video does. */
+  const heroVideo = $('#heroVideo');
+  if (heroVideo) {
+    const conn = navigator.connection || {};
+    const stingy = conn.saveData === true
+      || /^(slow-)?2g$/.test(conn.effectiveType || '');
+
+    if (reduced || stingy) {
+      heroVideo.removeAttribute('autoplay');
+      heroVideo.remove();                    // poster image carries the hero
+    } else {
+      heroVideo.preload = 'auto';
+      heroVideo.load();
+
+      const reveal = () => heroVideo.classList.add('is-playing');
+      heroVideo.addEventListener('playing', reveal, { once: true });
+
+      // Autoplay can still be refused even when muted; if so, the poster
+      // simply stays, which is a perfectly good hero.
+      heroVideo.play?.().catch(() => {});
+
+      // Stop decoding while the hero is off-screen.
+      const vidIO = new IntersectionObserver(([en]) => {
+        if (en.isIntersecting) heroVideo.play?.().catch(() => {});
+        else heroVideo.pause();
+      }, { threshold: 0.01 });
+      vidIO.observe(heroVideo);
+    }
   }
 
 
