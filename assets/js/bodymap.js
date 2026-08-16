@@ -16,6 +16,8 @@
 
   const front   = $('#bodyFront');
   const back    = $('#bodyBack');
+  const artFront = $('#artFront');
+  const artBack  = $('#artBack');
   const inkLayer = $('#inkLayer');
   const clip     = $('#inkClip');
 
@@ -33,7 +35,7 @@
     region: null,        // the selected <use> element
     label: '',
     raw: null,           // uploaded design as an <img>
-    ink: '#141821',
+    ink: '#cfe6f7',      // the figure is line art on navy, so ink must be light
     href: null,          // processed design as a data URL
     ratio: 1,            // design height / width
     x: 0, y: 0,          // centre, in SVG units
@@ -56,6 +58,8 @@
       });
       front.hidden = st.view !== 'front';
       back.hidden  = st.view !== 'back';
+      artFront.hidden = st.view !== 'front';   // swap the drawing as well
+      artBack.hidden  = st.view !== 'back';
       clearSelection();
     });
   });
@@ -415,28 +419,50 @@
     }
   });
 
+  /* A serialised SVG loaded through an <img> may not fetch anything external,
+     so the body artwork has to travel inside it as a data URI. Fetched once
+     and kept. */
+  const artCache = {};
+  async function artDataUrl(view) {
+    if (artCache[view]) return artCache[view];
+    const el = view === 'front' ? artFront : artBack;
+    const res = await fetch(el.getAttribute('href'));
+    const blob = await res.blob();
+    artCache[view] = await new Promise((ok) => {
+      const fr = new FileReader();
+      fr.onload = () => ok(fr.result);
+      fr.readAsDataURL(blob);
+    });
+    return artCache[view];
+  }
+
   /** Flatten the live SVG (body + design) into a PNG data URL. */
-  function renderToPng() {
+  async function renderToPng() {
+    const art = await artDataUrl(st.view);
+
     return new Promise((resolve, reject) => {
       const clone = svg.cloneNode(true);
       clone.setAttribute('xmlns', SVGNS);
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
       clone.setAttribute('width', 600);
-      clone.setAttribute('height', 1460);
+      clone.setAttribute('height', 1400);
 
-      // hide whichever view is not showing
-      const other = clone.querySelector(st.view === 'front' ? '#bodyBack' : '#bodyFront');
-      other?.remove();
+      // drop the view that is not showing, artwork included
+      const hideBody = clone.querySelector(st.view === 'front' ? '#bodyBack' : '#bodyFront');
+      hideBody?.remove();
+      clone.querySelector(st.view === 'front' ? '#artBack' : '#artFront')?.remove();
+
+      // inline the artwork so it survives serialisation
+      const keep = clone.querySelector(st.view === 'front' ? '#artFront' : '#artBack');
+      if (keep) { keep.removeAttribute('href'); keep.setAttribute('href', art); }
 
       // External CSS does not travel with a serialised SVG, so inline it.
-      // Keep this in step with bodymap.css — no stroke, or the export comes
-      // out looking like a jointed mannequin.
-      // The gradients live in <defs> and travel with the clone, so the export
-      // gets the same shading the client saw rather than a flat silhouette.
+      // The regions are hit areas only — they must stay invisible here, or the
+      // saved preview shows a blue blob over the chosen part.
       const style = document.createElementNS(SVGNS, 'style');
       style.textContent = `
-        .reg { fill:url(#skinGrad); stroke:none; }
-        .reg.is-on { fill:url(#skinOn); }
-        image { mix-blend-mode:${AramInk.blendFor(st.ink)}; }
+        .reg { fill:transparent; stroke:none; }
+        #inkLayer image { mix-blend-mode:${AramInk.blendFor(st.ink)}; }
       `;
       clone.insertBefore(style, clone.firstChild);
 
@@ -446,7 +472,7 @@
       const img = new Image();
       img.onload = () => {
         const c = document.createElement('canvas');
-        c.width = 600; c.height = 1460;
+        c.width = 600; c.height = 1400;
         const cx = c.getContext('2d');
         cx.fillStyle = '#0a1c47';
         cx.fillRect(0, 0, c.width, c.height);
