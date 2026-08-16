@@ -111,7 +111,7 @@
 .bmap__chosen span{font-size:.8rem;color:var(--muted)}
 .bmap__dot{
   width:10px;height:10px;flex:none;border-radius:50%;
-  background:var(--baby-400);box-shadow:0 0 0 4px rgba(124,196,238,.16);
+  background:var(--pink-400);box-shadow:0 0 0 4px rgba(242,166,196,.18);
 }
 
 .drop--sm{padding:1.1rem 1rem}
