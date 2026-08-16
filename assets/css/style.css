@@ -205,8 +205,9 @@ em{font-family:"Playfair Display",serif;font-style:italic;font-weight:600;
 }
 .brand:hover .brand__mark{transform:rotate(-12deg) scale(1.08)}
 .brand__mark svg{width:100%;height:100%}
+/* the navbar runs on baby pink; the rest of the site stays baby blue */
 .brand__ring{
-  stroke:var(--baby-400);stroke-width:1.5;opacity:.55;
+  stroke:var(--pink-400);stroke-width:1.5;opacity:.6;
   stroke-dasharray:24 12;transform-origin:center;
   animation:spin 14s linear infinite;
 }
@@ -215,7 +216,7 @@ em{font-family:"Playfair Display",serif;font-style:italic;font-weight:600;
 
 .brand__text{display:flex;flex-direction:column;line-height:1}
 .brand__name{font-family:"Playfair Display",serif;font-style:italic;font-size:1.35rem;color:#fff}
-.brand__sub{font-size:.62rem;letter-spacing:.42em;color:var(--baby-400);margin-top:.28rem}
+.brand__sub{font-size:.62rem;letter-spacing:.42em;color:var(--pink-400);margin-top:.28rem}
 
 /* ── links ── */
 .nav__links{display:flex;align-items:center;gap:.35rem}
@@ -226,32 +227,32 @@ em{font-family:"Playfair Display",serif;font-style:italic;font-weight:600;
 .nav__link span{position:relative;z-index:2}
 .nav__link::before{                       /* pill that grows in */
   content:"";position:absolute;inset:0;border-radius:999px;
-  background:rgba(124,196,238,.1);
+  background:rgba(242,166,196,.14);
   transform:scale(.7);opacity:0;transition:all .35s var(--ease);
 }
 .nav__link::after{                        /* underline dash */
   content:"";position:absolute;left:50%;bottom:.28rem;height:2px;width:0;
-  border-radius:2px;background:var(--baby-300);
+  border-radius:2px;background:var(--pink-300);
   transform:translateX(-50%);transition:width .35s var(--ease);
 }
 .nav__link:hover{color:#fff}
 .nav__link:hover::before{transform:scale(1);opacity:1}
 .nav__link:hover::after,
 .nav__link.is-active::after{width:18px}
-.nav__link.is-active{color:var(--baby-200)}
+.nav__link.is-active{color:var(--pink-200)}
 
 /* ── cta ── */
 .nav__cta{
   display:inline-flex;align-items:center;gap:.45rem;
   padding:.62rem 1.15rem;border-radius:999px;font-size:.88rem;font-weight:600;
   color:var(--navy-950);
-  background:linear-gradient(120deg,var(--baby-200),var(--baby-400));
-  box-shadow:0 8px 26px -10px var(--baby-400);
+  background:linear-gradient(120deg,var(--pink-200),var(--pink-400));
+  box-shadow:0 8px 26px -10px var(--pink-400);
   transition:transform .3s var(--ease),box-shadow .3s;
   position:relative;overflow:hidden;
 }
 .nav__cta svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s}
-.nav__cta:hover{transform:translateY(-2px);box-shadow:0 14px 32px -10px var(--baby-400)}
+.nav__cta:hover{transform:translateY(-2px);box-shadow:0 14px 32px -10px var(--pink-400)}
 .nav__cta:hover svg{transform:translateX(3px)}
 .nav__cta::after{                          /* shine sweep */
   content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;
@@ -269,7 +270,7 @@ em{font-family:"Playfair Display",serif;font-style:italic;font-weight:600;
 }
 .burger span{
   position:absolute;left:12px;width:20px;height:2px;border-radius:2px;
-  background:var(--baby-200);transition:all .35s var(--ease);
+  background:var(--pink-200);transition:all .35s var(--ease);
 }
 .burger span:nth-child(1){top:15px}
 .burger span:nth-child(2){top:21px}

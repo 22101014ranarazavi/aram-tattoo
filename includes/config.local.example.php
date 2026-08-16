@@ -23,7 +23,7 @@ return [
     'APP_DEBUG'    => true,                      // MUST be false on the live site
 
     /* ── where booking notifications go ─────────────────── */
-    'STUDIO_EMAIL' => 'hello@aramstattoo.com',
+    'STUDIO_EMAIL' => 'aramrzvvv@gmail.com',
 
     /* ── sending mail ───────────────────────────────────── */
     // 'mail' uses PHP's built-in mail() — works on most shared hosting but
@@ -42,6 +42,6 @@ return [
 
     /* ── first admin account, used once by database/seed.php ── */
     'SEED_ADMIN_NAME'     => 'Aram',
-    'SEED_ADMIN_EMAIL'    => 'aram@aramstattoo.com',
+    'SEED_ADMIN_EMAIL'    => 'aramrzvvv@gmail.com',
     'SEED_ADMIN_PASSWORD' => 'change-this-now',
 ];
