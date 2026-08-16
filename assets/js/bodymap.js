@@ -46,6 +46,14 @@
 
   let inkImg = null;
 
+  /* SVG elements have no .hidden IDL property — assigning it sets a stray
+     JS property and leaves the attribute alone, so the view never switches.
+     Drive the attribute directly; [hidden] is styled display:none in CSS. */
+  const setHidden = (el, on) => {
+    if (on) el.setAttribute('hidden', '');
+    else el.removeAttribute('hidden');
+  };
+
 
   /* ── view toggle ──────────────────────────────────────── */
   document.querySelectorAll('.vbtn').forEach((b) => {
@@ -56,10 +64,10 @@
         o.classList.toggle('is-on', on);
         o.setAttribute('aria-selected', String(on));
       });
-      front.hidden = st.view !== 'front';
-      back.hidden  = st.view !== 'back';
-      artFront.hidden = st.view !== 'front';   // swap the drawing as well
-      artBack.hidden  = st.view !== 'back';
+      setHidden(front,    st.view !== 'front');
+      setHidden(back,     st.view !== 'back');
+      setHidden(artFront, st.view !== 'front');   // swap the drawing as well
+      setHidden(artBack,  st.view !== 'back');
       clearSelection();
     });
   });
@@ -70,6 +78,19 @@
     const reg = e.target.closest('.reg');
     if (!reg) return;
     select(reg);
+  });
+
+  /* Shrink every hit area towards its own centre. The traced outlines butt
+     up against each other, which makes it easy to catch the neighbouring part
+     by accident; pulling them in leaves a margin and makes the choice
+     deliberate. regionMatrix reads getCTM, so the clip and the design still
+     land correctly with this extra transform in play. */
+  const REGION_SCALE = 0.82;
+  svg.querySelectorAll('.reg').forEach((r) => {
+    const b = r.getBBox();
+    const cx = b.x + b.width / 2, cy = b.y + b.height / 2;
+    r.setAttribute('transform',
+      `translate(${cx} ${cy}) scale(${REGION_SCALE}) translate(${-cx} ${-cy})`);
   });
 
   // keyboard: the regions are focusable via the list below
