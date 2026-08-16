@@ -430,10 +430,12 @@
       // External CSS does not travel with a serialised SVG, so inline it.
       // Keep this in step with bodymap.css — no stroke, or the export comes
       // out looking like a jointed mannequin.
+      // The gradients live in <defs> and travel with the clone, so the export
+      // gets the same shading the client saw rather than a flat silhouette.
       const style = document.createElementNS(SVGNS, 'style');
       style.textContent = `
-        .reg { fill:#e5c7ab; stroke:none; }
-        .reg.is-on { fill:#f6e2cf; }
+        .reg { fill:url(#skinGrad); stroke:none; }
+        .reg.is-on { fill:url(#skinOn); }
         image { mix-blend-mode:${AramInk.blendFor(st.ink)}; }
       `;
       clone.insertBefore(style, clone.firstChild);

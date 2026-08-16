@@ -43,14 +43,14 @@
    each one would draw every internal seam and turn the figure into a
    jointed mannequin. An outline appears only on the part being pointed at. */
 .reg{
-  fill:#e5c7ab;
+  fill:url(#skinGrad);
   stroke:none;
   cursor:pointer;
   transition:fill .22s ease,filter .22s ease;
 }
-.reg:hover{fill:#f2dcc6}
+.reg:hover{fill:url(#skinHover)}
 .reg.is-on{
-  fill:#fcecdb;
+  fill:url(#skinOn);
   stroke:#7cc4ee;
   stroke-width:1.6;
   paint-order:stroke;
