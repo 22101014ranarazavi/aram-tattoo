@@ -26,11 +26,10 @@
   --line:rgba(165,216,243,.16);
   --glass:rgba(8,22,58,.92);
 
-  /* ── SWAP YOUR BACKGROUND PHOTO HERE ──────────
-     Drop your photo in assets/img/ and point this at it, e.g.
-     --hero-photo:url("../img/hero.jpg");
-     Until then a generated placeholder is used. */
-  --hero-photo:url("../img/hero-placeholder.svg");
+  /* ── THE HERO BACKGROUND PHOTO ──────────
+     Swap the filename to change it. assets/img/hero-placeholder.svg is
+     the generated fallback if you ever want it back. */
+  --hero-photo:url("../img/hero.jpg");
 
   --radius:20px;
   --radius-sm:12px;
@@ -332,9 +331,9 @@ em{font-family:"Playfair Display",serif;font-style:italic;font-weight:600;
    of the site showed none of the movement. */
 .hero__bg{
   position:absolute;inset:-8% 0 0;z-index:-2;
-  background:var(--hero-photo) center/cover no-repeat;
-  opacity:.42;
-  filter:saturate(.7) contrast(1.05);
+  background:var(--hero-photo) center 30%/cover no-repeat;
+  opacity:.78;
+  filter:saturate(.95) contrast(1.02);
   transform:scale(1.06);will-change:transform;
   animation:kenburns 24s ease-in-out infinite alternate;
 }
