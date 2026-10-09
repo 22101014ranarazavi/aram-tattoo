@@ -10,6 +10,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get purge -y --auto-remove \
     && rm -rf /var/lib/apt/lists/*
 
+# Some php:apache images ship more than one MPM enabled, which makes Apache
+# refuse to start ("AH00534: More than one MPM loaded"). Disable them all and
+# re-enable only prefork — the MPM the official PHP module requires.
+RUN for m in mpm_event mpm_worker mpm_prefork; do a2dismod -q $m 2>/dev/null || true; done \
+    && a2enmod mpm_prefork \
+    && apache2ctl -t
+
 # The .htaccess files are what block /includes and /database from the web,
 # so Apache must be told to honour them.
 RUN a2enmod rewrite headers \
@@ -18,7 +25,8 @@ RUN a2enmod rewrite headers \
   AllowOverride All\n\
   Require all granted\n\
 </Directory>\n' > /etc/apache2/conf-available/aram.conf \
-    && a2enconf aram
+    && a2enconf aram \
+    && apache2ctl -t
 
 # Sensible production PHP defaults
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
@@ -33,8 +41,16 @@ RUN mkdir -p /var/www/html/uploads/designs /var/www/html/uploads/previews \
     && chmod -R 775 /var/www/html/uploads
 
 # Railway injects PORT at runtime; Apache defaults to 80 locally.
+# Force exactly one MPM (prefork) at start too, in case the base image ships
+# more than one enabled (AH00534 on some php:apache tags).
 CMD ["sh", "-c", "\
+  rm -f /etc/apache2/mods-enabled/mpm_event.load \
+        /etc/apache2/mods-enabled/mpm_worker.load \
+        /etc/apache2/mods-enabled/mpm_event.conf \
+        /etc/apache2/mods-enabled/mpm_worker.conf; \
+  ln -sf /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/mpm_prefork.load; \
   PORT=${PORT:-80}; \
   sed -i \"s/^Listen 80$/Listen ${PORT}/\" /etc/apache2/ports.conf; \
   sed -i \"s/<VirtualHost \\*:80>/<VirtualHost *:${PORT}>/\" /etc/apache2/sites-available/000-default.conf; \
+  php database/migrate.php > /proc/1/fd/1 2>&1; \
   exec apache2-foreground"]

@@ -1,7 +1,15 @@
+# local dev secrets — never ship to the container
 includes/config.local.php
+
+# uploaded content (must be empty in the image; a volume holds it at runtime)
 uploads/designs/*
 uploads/previews/*
-*.pdf
-.git
+!uploads/designs/.gitignore
+!uploads/previews/.gitignore
+
+# local docs / build artifacts
+Arams-Tattoo-Documentation.pdf
+_verify.html
+_demo.*
 .DS_Store
-node_modules
+.git

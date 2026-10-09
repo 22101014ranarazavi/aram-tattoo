@@ -13,3 +13,6 @@ uploads/previews/*
 Arams-Tattoo-Documentation.pdf
 _verify.html
 _demo.*
+
+# database admin tool - never publish
+adminer.php
