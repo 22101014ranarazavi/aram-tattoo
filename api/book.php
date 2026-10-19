@@ -132,7 +132,7 @@ try {
         );
     }
 
-    send_mail($email, "We got your request ({$reference}) — Aram's Tattoo",
+    send_mail($email, "We got your request ({$reference}) — Aram Tattoo",
         mail_booking_to_client($booking));
 
 } catch (Throwable $e) {

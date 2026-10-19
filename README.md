@@ -1,4 +1,4 @@
-# Aram's Tattoo — website
+# Aram Tattoo — website
 
 Front end is plain HTML/CSS/JS. Back end is PHP 8 + MySQL with no framework and
 no Composer — it runs on any cheap shared host.

@@ -22,7 +22,7 @@ function send_mail(
     ?string $replyTo = null
 ): bool {
     $fromMail = (string) app_config('MAIL_FROM', 'no-reply@' . ($_SERVER['HTTP_HOST'] ?? 'localhost'));
-    $fromName = (string) app_config('MAIL_FROM_NAME', "Aram's Tattoo");
+    $fromName = (string) app_config('MAIL_FROM_NAME', "Aram Tattoo");
 
     if ($text === '') {
         $text = trim(html_entity_decode(strip_tags(preg_replace('/<br\s*\/?>/i', "\n", $html) ?? '')));
@@ -193,7 +193,7 @@ function mail_layout(string $heading, string $inner): string
   </td></tr>
   <tr><td style="padding:16px 30px 26px;border-top:1px solid rgba(165,216,243,.15);
    font-size:11px;color:#9fb6d6">
-    © {$year} Aram's Tattoo
+    © {$year} Aram Tattoo
   </td></tr>
  </table></body></html>
 HTML;

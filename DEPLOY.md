@@ -1,4 +1,4 @@
-# Putting Aram's Tattoo online
+# Putting Aram Tattoo online
 
 Everything here is plain PHP 8 + MySQL, so any normal shared host works —
 Hostinger, Namecheap, SiteGround, cPanel, a VPS. No Node, no build step,

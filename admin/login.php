@@ -31,7 +31,7 @@ header('X-Content-Type-Options: nosniff');
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Log in — Aram's Tattoo Admin</title>
+<title>Log in — Aram Tattoo Admin</title>
 <link rel="stylesheet" href="../assets/css/admin.css?v=1">
 </head>
 <body class="login-body">

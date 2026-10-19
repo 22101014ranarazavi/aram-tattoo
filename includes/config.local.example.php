@@ -31,7 +31,7 @@ return [
     // delivery that actually arrives.
     'MAIL_TRANSPORT' => 'mail',
     'MAIL_FROM'      => 'no-reply@aramstattoo.com',
-    'MAIL_FROM_NAME' => "Aram's Tattoo",
+    'MAIL_FROM_NAME' => "Aram Tattoo",
 
     // 'MAIL_TRANSPORT' => 'smtp',
     // 'SMTP_HOST'   => 'smtp-relay.brevo.com',
